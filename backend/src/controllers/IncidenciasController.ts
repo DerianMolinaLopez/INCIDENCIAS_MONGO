@@ -180,6 +180,16 @@ static async createIncidencia(req:Request, res:Response) {
             console.log(error)
         }
     }
+    static async getIncidenciasByTecnico(req:Request, res:Response) {
+        try{
+            const {idTecnico} = req.params
+            const incidencias = await Incidencia.find({idTecnico})
+            res.json(incidencias)
+        }catch(error){
+            res.send('error en el servidor')
+            console.log(error)
+        }
+    }
 
 }
 export default IncidenciaController

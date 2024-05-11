@@ -4,6 +4,7 @@ import App from './App.jsx';
 import Login from './pages/Login.jsx';
 import Incidencias from './pages/Incidencias.jsx';
 import JefeTecnicoInicio from './pages/JefeTecnicoInicio.jsx';
+import TecnicoInicio from './pages/TecnicoInicio.jsx';
 import IncidenciasTablas from './pages/IncidenciasTablas.jsx';
 import Layout from './Layout/Layout.jsx';
 import './index.css';
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
     path:'/jefe-tecnico',
     element:<JefeTecnicoInicio/>
   
+  },
+  {
+   path:'/tecnico',
+   element:<TecnicoInicio/>
+
   }
 ]);
 

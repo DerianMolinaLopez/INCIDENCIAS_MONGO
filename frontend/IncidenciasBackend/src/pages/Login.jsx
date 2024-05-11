@@ -26,14 +26,17 @@ const Login = () => {
                   return  toast.error('Usuario o contraseña incorrectos')
                 }
                 //si apsa la valdiacion entonces vamos a verificar de que tipo es
-
+                localStorage.setItem('usuario',JSON.stringify(response.data))
                 if(response.data.type ==='departamento'){
                     //redireccion a la pagina de administrador pero antes mandamos al localStorage
-                    localStorage.setItem('usuario',JSON.stringify(response.data))
+                    
                     navigate('/incidencias/crear-incidencia')    
                 }
                 if (response.data.type === 'jefe de tecnicos'){
                    navigate('/jefe-tecnico')
+                }
+                if(response.data.type === 'tecnico'){
+                    navigate('/tecnico')
                 }
             }catch(e){
                 console.log(e)
