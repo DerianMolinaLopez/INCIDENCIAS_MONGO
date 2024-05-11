@@ -11,6 +11,18 @@ class EdificioController {
             console.log(error)
         }
     }
+
+    static async getEdificiosById(req: Request, res: Response) {
+        try{
+            //todos los edificios de un deparatamento
+            const {id_departamento} = req.params
+            const edificio =  await Edificio.find({id_departamento}).select('id_edificio')
+            res.send(edificio)
+        }catch(error){
+            res.send('error ene l servidor')
+            console.log(error)
+        }
+    }
     static async createEdificio (req:Request, res:Response){
         //verificamos si el departamento existe con su id
         /*
@@ -36,6 +48,7 @@ class EdificioController {
             res.send('error en el servidor')
             console.log(e)
         }
-    } 
+    }
+     
 }
 export default EdificioController

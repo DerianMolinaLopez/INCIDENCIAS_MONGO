@@ -5,4 +5,5 @@ const edificioRoute = Route()
 edificioRoute.get('/',EdificioController.getEdificios)
 
 edificioRoute.post('/',EdificioController.createEdificio)
+edificioRoute.get('/:id_departamento',EdificioController.getEdificiosById)
 export default  edificioRoute

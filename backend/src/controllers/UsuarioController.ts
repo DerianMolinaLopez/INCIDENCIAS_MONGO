@@ -31,8 +31,8 @@ class UsuarioController{
     }
     static async LoginUsuario(req: Request, res: Response){
         try{
-            const {Nombre,password} = req.body
-            const usuarioExist = await Usuario.findOne({Nombre,password})
+            const {Nombre,password} = req.params
+            const usuarioExist = await Usuario.findOne({Nombre,password}).select('-password')
             if(!usuarioExist){
                 return res.json({error: 'usuario no encontrado',status: 404})
             }
