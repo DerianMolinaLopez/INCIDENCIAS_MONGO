@@ -77,5 +77,29 @@ class IncidenciaController {
         console.log(error)
     }
 }
+/*
+
+la incidencia desde aqui la creamos
+edificio **
+aula
+tipo de equipo
+equipo
+descripcion
+todas son id, la demas informacion la generare por defecto
+*/
+ static async createIncidencia(req:Request, res:Response) { //queda pendiente
+    try{
+        const {id_edificio,id_aula,id_equipo,descripcion} = req.body
+        //obtenemos el ultimo registro de la coleccion
+        const lastIncidencia = await Incidencia.findOne().sort({$natural:-1}).select('id_incidencia')
+        let ultimo = lastIncidencia?.id_incidencia 
+         
+
+        res.send('probando')
+    }catch(error){
+        console.log(error)
+        res.send('error en el servidor')
+    }
+ }
 }
 export default IncidenciaController

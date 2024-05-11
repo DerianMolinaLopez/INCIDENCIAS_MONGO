@@ -4,5 +4,5 @@ const routerEquipos = Route()
 routerEquipos.get('/',EquiposController.getEquipos)
 routerEquipos.post('/',EquiposController.createEquipos)
 routerEquipos.get('/tipo',EquiposController.getTipoEquipos)
-routerEquipos.get('/aula/:aula_id:',EquiposController.getEquiposByTipoandAula)
+routerEquipos.get('/aula/:id_aula/:tipoEquipo',EquiposController.getEquiposByTipoandAula)
 export default routerEquipos
