@@ -4,6 +4,8 @@ import Aula from "../models/Aula";
 import Edificio from "../models/Edificio";
 import Equipo from "../models/Equipos";
 import Tecnico from "../models/Tecnico";
+import { prioridad } from "../models/incidencias";
+import { estado } from "../models/incidencias";
 import { Request, Response } from "express";
 class IncidenciaController {
     static async getIncidencias(req:Request, res:Response) {
@@ -140,6 +142,44 @@ static async createIncidencia(req:Request, res:Response) {
         res.send('error en el servidor');
     }
 }
+    static async getIncidenciaByDepartamento(req:Request, res:Response) {   
+        try{
+            const {id_departamento} = req.params
+            const incidencias = await Incidencia.find({id_departamento})
+            res.json(incidencias)//aunque no haya incidencias, se devolverá un array vacío
+        }catch(error){
+            res.send('error en el servidor')
+            console.log(error)
+        }
+    }
+    static async updateIncidencia(req:Request, res:Response) {
+        try{
+            //recibimos el id de la incidenica, la prioridad y el id del tecnico encargado
+            const {id_incidencia, prioridad, idTecnico} = req.body
+            //buscamos la incidencia por su id
+            const incidencia = await Incidencia.findOne({id_incidencia})
+            //si no existe la incidencia, devolvemos un mensaje
+            if(!incidencia){
+                return res.status(404).json({message: "Incidencia no encontrada"})
+            }
+            //si la incidencia existe, actualizamos la prioridad y el id del tecnico
+            incidencia.prioridad = prioridad
+            incidencia.idTecnico = idTecnico
+            incidencia.estado = estado.EN_PROCESO
+            //buscamos el tecnico
+            const tecnico = await Tecnico.findOne({idTecnico})
+            tecnico?.incidencias.push(id_incidencia)
+            //guardamos los cambios
+            await Promise.all([incidencia.save(),tecnico?.save()])
+            //await incidencia.save()
+            res.json({msg:'okey'})
+
+
+        }catch(error){
+            res.send('error en el servidor')
+            console.log(error)
+        }
+    }
 
 }
 export default IncidenciaController

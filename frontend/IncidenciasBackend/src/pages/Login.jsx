@@ -32,6 +32,9 @@ const Login = () => {
                     localStorage.setItem('usuario',JSON.stringify(response.data))
                     navigate('/incidencias/crear-incidencia')    
                 }
+                if (response.data.type === 'jefe de tecnicos'){
+                   navigate('/jefe-tecnico')
+                }
             }catch(e){
                 console.log(e)
             }

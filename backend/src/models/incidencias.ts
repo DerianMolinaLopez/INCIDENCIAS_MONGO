@@ -24,12 +24,12 @@ model Incidencia {
   tecnico               Tecnico       @relation(fields: [tecnico_id], references: [id])
 }
 */
-enum prioridad{
+export enum prioridad{
     ALTA = 'alta',
     MEDIA = 'media',
     BAJA = 'baja',
 }
-enum estado{
+export enum estado{
     ABIERTA = 'pendiente',
     EN_PROCESO = 'en proceso',
     CERRADA = 'cerrada',
@@ -49,7 +49,7 @@ interface IncidenciaInterface extends Document{
     descripcion: string;
     id_equipo: string;
     tiempo_estimado: string;
-    idTecnico: number;
+    idTecnico:  string;
     Calificacion_atencion: number;
     tipo_incidencia: tipo_incidencia;
     estado: estado;
@@ -65,7 +65,7 @@ const IncidenciaSchema :Schema = new Schema({
     descripcion: {type: String, required: true},
     id_equipo: {type: String, required: true},
     tiempo_estimado: {type: String, },
-    idTecnico: {type: Number, required: true},
+    idTecnico: {type:String, required: true},
     Calificacion_atencion: {type: Number},
     tipo_incidencia: {type: String, required: true},
     estado: {type: String, required: true},

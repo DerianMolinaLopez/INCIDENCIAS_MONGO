@@ -34,8 +34,8 @@ interface TecnicoInterface extends Document{
     incidencias: string[]
 } 
 const TecnicoSchema :Schema = new Schema({
-    idTecnico: {type: String, required: true, unique: true},
-    id_usuario: {type: String, required: true, unique: true},
+    idTecnico: {type: String, required: true},
+    id_usuario: {type: String, required: true },
     nombre: {type: String, required: true},
     apellido_paterno: {type: String, required: true},
     apellido_materno: {type: String, required: true},

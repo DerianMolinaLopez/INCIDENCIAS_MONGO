@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import Login from './pages/Login.jsx';
 import Incidencias from './pages/Incidencias.jsx';
+import JefeTecnicoInicio from './pages/JefeTecnicoInicio.jsx';
+import IncidenciasTablas from './pages/IncidenciasTablas.jsx';
 import Layout from './Layout/Layout.jsx';
 import './index.css';
 import {createBrowserRouter, RouterProvider } from 'react-router-dom'; // Importa BrowserRouter y RouterProvider
@@ -20,8 +22,17 @@ const router = createBrowserRouter([
       {
         path:"/incidencias/crear-incidencia",
         element:<Incidencias/>
+      },
+      {
+        path:"/incidencias/tablas",
+        element:<IncidenciasTablas/>
       }
     ]
+  },
+  {
+    path:'/jefe-tecnico',
+    element:<JefeTecnicoInicio/>
+  
   }
 ]);
 

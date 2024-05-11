@@ -13,6 +13,7 @@ const Incidencias = () => {
     const [tipoEquipos, setTipoEquipos] = useState([])
     const [tipoEquipo, setTipoEquipo] = useState('');
     const [equipoFisico, setEquipoFisico] = useState([])
+    const [equipo, setEquipo] = useState('')
     const [descripcion, setDescripcion] = useState('')
 
 
@@ -80,12 +81,13 @@ const Incidencias = () => {
         const incidencia = {
             id_edificio: edificio,
             id_aula: aula,
-            id_equipo: equipoFisico,
+            id_equipo: equipo,
             descripcion: descripcion,
             id_departamento: usuario.usuarioExist.id_usuario
         }
         console.log(incidencia)
         try {
+            console.log(incidencia.id_equipo)
             const response = await axios.post('http://localhost:3000/incidencias/crear', incidencia)
             console.log(response.data)
             toast.success('Incidencia reportada correctamente')
@@ -135,7 +137,9 @@ descripcion
     ))}
 </select>
 
-                    <select className="block py-2.5 px-0 w-full text-lg text-center text-gray-500 bg-transparent border-0 border-indigo-700 border-b-4 appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer">
+                    <select 
+                         value={equipo} onChange={e => setEquipo(e.target.value)}
+                         className="block py-2.5 px-0 w-full text-lg text-center text-gray-500 bg-transparent border-0 border-indigo-700 border-b-4 appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer">
                         <option value="">--Slecciona el equipo a realizar el reporte--</option>
                         {equipoFisico.map((equipo) => <option key={equipo.id_equipo}>{equipo.id_equipo}</option>)}
                         {/* Opciones de equipo */}
