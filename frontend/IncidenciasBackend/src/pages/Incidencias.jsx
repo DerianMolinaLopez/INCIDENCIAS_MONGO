@@ -1,6 +1,10 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const Incidencias = () => {
     const [usuario, setUsuario] = useState([])
     const [edificios, setEdificios] = useState([])
@@ -67,6 +71,36 @@ const Incidencias = () => {
         }
 
     }, [tipoEquipo, aula]);
+    const reportarIncidencia = async (e) => {
+        e.preventDefault()
+        if (edificio === '' || aula === '' || tipoEquipo === '' || descripcion === '') {
+            toast.error('Por favor llena todos los campos')
+            return
+        }
+        const incidencia = {
+            id_edificio: edificio,
+            id_aula: aula,
+            id_equipo: equipoFisico,
+            descripcion: descripcion,
+            id_departamento: usuario.usuarioExist.id_usuario
+        }
+        console.log(incidencia)
+        try {
+            const response = await axios.post('http://localhost:3000/incidencias/crear', incidencia)
+            console.log(response.data)
+            toast.success('Incidencia reportada correctamente')
+            //reiniciamos todo el formulario
+            setEdificio('')
+            setAula('')
+            setTipoEquipo('')
+            setDescripcion('')
+            
+        } catch (error) {
+            console.error('Error al reportar la incidencia', error)
+            alert('Error al reportar la incidencia')
+        }
+    
+    }
 
 /*
 
@@ -76,12 +110,14 @@ aula
 tipo de equipo
 equipo
 descripcion
+///////////
+{id_edificio,id_aula,id_equipo,descripcion,id_departamento}
 */
     return (
         <div className="h-full  bg-gray-200 anchura">
             <h3 className=" text-center text-indigo-700 text-3xl pt-10 font-bold">Reportes o incidencias</h3>
             <div className="flex justify-center  mt-11">
-                <form className="bg-white border-rounded flex rounded-lg shadow-lg flex-col p-5 space-y-7 w-2/4">
+                <form onSubmit={reportarIncidencia} className="bg-white border-rounded flex rounded-lg shadow-lg flex-col p-5 space-y-7 w-2/4">
                     <select onChange={e => setEdificio(e.target.value)} value={edificio} className="block py-2 px-0 w-full text-lg text-center text-gray-500 bg-transparent border-0 border-indigo-700 border-b-4 appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer">
                         <option value="">--Selecciona el edificio--</option>
                         {edificios.map((edificio) => <option key={edificio.id_edificio}>{edificio.id_edificio}</option>)}
@@ -109,13 +145,15 @@ descripcion
                      value={descripcion} onChange={e => setDescripcion(e.target.value)}
                     className="border-4 border-opacity-50 border-indigo-400 shadow-lg" id="" placeholder="Brinda detalles del reporte" cols="30" rows="5"></textarea>
 
-                    <input
-                        className="w-full text-2xl bg-red-600 hover:bg-red-700 transition-colors duration-100 font-bold text-white  p-2 cursor-pointer"
-                        type="submit"
-                        value="Reportar incidencia"
-                    />
+                <input
+                    className="w-full text-2xl bg-red-600 hover:bg-red-700 transition-colors duration-100 font-bold text-white  p-2 cursor-pointer"
+                    type="button"
+                    value="Reportar incidencia"
+                    onClick={reportarIncidencia}
+                />
                 </form>
             </div>
+            <ToastContainer />
         </div>
 
     )

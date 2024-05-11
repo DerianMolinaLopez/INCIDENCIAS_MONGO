@@ -87,19 +87,59 @@ equipo
 descripcion
 todas son id, la demas informacion la generare por defecto
 */
- static async createIncidencia(req:Request, res:Response) { //queda pendiente
-    try{
-        const {id_edificio,id_aula,id_equipo,descripcion} = req.body
-        //obtenemos el ultimo registro de la coleccion
-        const lastIncidencia = await Incidencia.findOne().sort({$natural:-1}).select('id_incidencia')
-        let ultimo = lastIncidencia?.id_incidencia 
-         
+static async createIncidencia(req:Request, res:Response) {
+    try {
+        const { id_edificio, id_aula, id_equipo, descripcion, id_departamento } = req.body;
 
-        res.send('probando')
-    }catch(error){
-        console.log(error)
-        res.send('error en el servidor')
+        // Obtenemos el último registro de la colección
+        const lastIncidencia = await Incidencia.findOne().sort({$natural:-1}).select('id_incidencia');
+        let ultimo = lastIncidencia?.id_incidencia || 0;
+
+        // Generamos el nuevo id_incidencia sumándole 1 al último valor encontrado
+        const id_incidencia = ultimo + 1;
+
+        // Generamos la fecha actual
+        const fecha = Date.now();
+
+        // Definimos el resto de los campos
+        const fecha_finalizacion = '';
+        const prioridad = 'sinAsignar';
+        const tiempo_estimado = 'sin asignar';
+        const idTecnico = 1;
+        const Calificacion_atencion = 0;
+        const tipo_incidencia = 'sinAsignar';
+        const estado = 'pendiente';
+
+        // Convertimos id_equipo en cadena si es un array
+        const equipo = Array.isArray(id_equipo) ? id_equipo[0] : id_equipo;
+
+        // Creamos la incidencia con los datos generados
+        const incidencia = new Incidencia({
+            id_incidencia,
+            fecha,
+            fecha_finalizacion,
+            id_departamento,
+            prioridad,
+            id_aula,
+            id_edificio,
+            descripcion,
+            id_equipo: equipo, // Usamos el valor convertido
+            tiempo_estimado,
+            idTecnico,
+            Calificacion_atencion,
+            tipo_incidencia,
+            estado
+        });
+
+        // Guardamos la incidencia en la base de datos
+        await incidencia.save();
+
+        res.send('incidencia creada correctamente');
+    } catch (error) {
+        console.log(error);
+        res.send('error en el servidor');
     }
- }
+}
+
 }
 export default IncidenciaController
