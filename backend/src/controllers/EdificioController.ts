@@ -12,6 +12,7 @@ class EdificioController {
         }
     }
 
+
     static async getEdificiosById(req: Request, res: Response) {
         try{
             //todos los edificios de un deparatamento

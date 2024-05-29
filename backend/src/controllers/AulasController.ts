@@ -78,7 +78,7 @@ class AulasController {
         try{
             //vamos a reecibir el id del edificio
             const {edificio_id} = req.params
-    
+           console.log(edificio_id)
             const aulas = await Aula.find({edificio_id}).select('id_aula')
            console.log(aulas)
             res.json(aulas)
@@ -87,6 +87,20 @@ class AulasController {
             res.send('error al acargar las auals')
             console.log(e)
         }
+    }
+    static async getAulasByEdificioId(req:Request,res:Response){
+
+    try{
+        const {edificio} = req.params
+        const aulas = await Edificio.findOne({
+            id_edificio:edificio
+        }).select('aulas')
+        console.log(aulas)
+        res.json({aulas,status:'ok'})
+    }catch(e){
+        console.log(e)
+        res.send('error en el servidor').status(500)
+    }
     }
 }
 export default AulasController

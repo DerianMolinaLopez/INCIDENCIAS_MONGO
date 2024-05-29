@@ -7,4 +7,5 @@ routerAulas.get('/:departamento',AulasController.getAulas)
 routerAulas.post('/crear_aula_edificio',AulasController.creteAulaEdificio)
 routerAulas.post('/',AulasController.createAulas)
 routerAulas.get('/:edificio_id',AulasController.getAulasByEdificio)
+routerAulas.get('/aulas/:edificio',AulasController.getAulasByEdificioId)
 export default routerAulas
