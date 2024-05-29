@@ -24,25 +24,31 @@ class EdificioController {
         }
     }
     static async createEdificio (req:Request, res:Response){
-        //verificamos si el departamento existe con su id
-        /*
-          id_departamento: string;
-    nombre: string;
-    descripcion: string;
-    edificios: string[];
-        */
+  /*
+  {
+  "id_departamento":"sis",
+  "id_edificio":"sis-hh",
+  "aulas":[]
+}
+  
+  */
 
         try{
-            const {id_departamento,} = req.body
+            const {id_departamento,id_edificio,aulas} = req.body
             const departamento = await Departamento.findOne({id_departamento})
             if(!departamento){
                 return res.send('departamento no encontrado')
             }
-            const edificio = new Edificio(req.body)
+            //si existe el departamento, verificamos si ya existe el edificio
+            const edificioExistente = await Edificio.findOne({id_edificio})
+            if(edificioExistente){
+                return res.json({msg:'edificio ya existe',status:'error'})
+            }
+            const edificio = new Edificio({id_departamento,id_edificio,aulas})
+            console.log(edificio)
             departamento.edificios.push(edificio.id_edificio)
-            edificio.save()
-           
-            await Promise.all([departamento.save(),])
+            console.log('probando')
+            await Promise.all([departamento.save(),edificio.save()])
             res.send('edificio creado con exito').status(200)
         }catch(e){
             res.send('error en el servidor')

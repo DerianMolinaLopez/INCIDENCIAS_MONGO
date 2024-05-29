@@ -32,7 +32,7 @@ export enum prioridad{
 export enum estado{
     ABIERTA = 'pendiente',
     EN_PROCESO = 'en proceso',
-    CERRADA = 'cerrada',
+    CERRADA = 'terminada',
 }
 enum tipo_incidencia{
     SOFTWARE = 'software',

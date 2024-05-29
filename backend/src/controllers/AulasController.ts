@@ -8,6 +8,20 @@ class AulasController {
         const aulas = await Aula.find()
         res.json(aulas)
     }
+    static async getAulasByDeprtamento(req: Request, res: Response) {
+        try{
+            //tood ser via params
+            const {departamento} = req.params
+            const departamentoExist = await Departamento.findOne({nombre:departamento})
+            if(!departamentoExist){
+                return res.status(400).json({msg:'departamento no encontrado'})
+            }
+            const edificios = await Edificio.find({departamento_id:departamentoExist.id_departamento}).select('id_edificio')
+            res.json(edificios)
+        }catch(e){
+            res.send('error al cargar las aulas')
+        }
+    }
     static async createAulas(req:Request,res:Response){
         /*
           id_aula: string;
@@ -16,26 +30,48 @@ class AulasController {
         equipos: string[];
         */
         try{
-            const {id_aula,edificio_id,equipos} = req.body
+            const {id_aula,edificio_id} = req.body
             //verificamos si existe ese edifcio
             const edificio = await Edificio.findOne({id_edificio:edificio_id})
             const aulaExist = await Aula.findOne({id_aula})
             if(!edificio){
-                return res.status(400).json({msg:'edificio no encontrado'})
+                return res.status(400).json({msg:'edificio no encontrado',status:'error'})
             }
             //o vemos sii ya existe el aula
             if(aulaExist){
-                return res.status(400).json({msg:'Ya hay un aula con ese id'})
+                return res.status(400).json({msg:'aula ya existe',status:'error'})
             }
 
-            const aula = new Aula({id_aula,edificio_id,equipos})
+            const aula = new Aula({id_aula,edificio_id,equipos:[]})
             edificio.aulas.push(aula.id_aula)
             await Promise.all([aula.save(),edificio.save()])
             
-            res.send('Aula creada con eixto')
+            res.json({msg:'Aula creada con exito',status:'ok'})
         }catch(error){
             res.send('erorr en el servidor')
             console.log(error)
+        }
+    }
+    static async creteAulaEdificio(req:Request,res:Response){
+        try{
+            const {id_aula,edificio_id} = req.body
+            //VERIFICAMOS SI EXISTE EL EDIFICIO
+            const edificio = await Edificio.findOne({id_edificio:edificio_id})
+            if(!edificio){
+                return res.json({msg:"Edificio no encontrado",status:'error'})
+            }
+            //verificamos si ya existe el aula
+            const aulaExist = await Aula.findOne({id_aula})
+            if(aulaExist){
+                return res.json({msg:"Aula ya existe",status:'error'})
+            }
+            edificio.aulas.push(id_aula)
+            const aula = new Aula({id_aula,edificio_id,equipos:[]})
+            await Promise.all([aula.save(),edificio.save()])
+            res.json({msg:'Aula creada con exito',status:'ok'}) 
+        }catch(e){
+            res.send('error al crear aula')
+            console.log(e)
         }
     }
     static async getAulasByEdificio(req:Request,res:Response){

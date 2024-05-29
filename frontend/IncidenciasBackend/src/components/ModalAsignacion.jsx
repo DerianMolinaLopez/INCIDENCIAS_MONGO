@@ -31,7 +31,7 @@ const ModalAsignacion = ({ handleModal, tecnicos, id_incidencia }) => {
         e.preventDefault()
          //validamos que haya datos antes de mandar la peticion
          if([tecnicoAsignado,prioridad].includes('')){
-            toast.error('llena todos los adtos')
+            toast.error('Es necesario llenar todos lso datos')
             return
          }
          //ya todos los datos vamos a mandar los datos
@@ -70,7 +70,7 @@ const ModalAsignacion = ({ handleModal, tecnicos, id_incidencia }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
             </button>
-            <form onSubmit={handleActualizarIncidencia} action="submit" className='mx-auto mt-40 bg-gray-300 flex justify-center flex-col px-24 py-9 rounded-lg w-1/2'>
+            <form onSubmit={handleActualizarIncidencia} action="submit" className='mx-auto mt-40 bg-gray-100 flex justify-center flex-col px-24 py-9 rounded-lg w-1/2'>
                 <div className='flex gap-10'>
                     <div>
                         <input id='software' name='tipo' onChange={handelChangeTecnico} value='software' type="radio" />
@@ -86,15 +86,17 @@ const ModalAsignacion = ({ handleModal, tecnicos, id_incidencia }) => {
 
                 <label htmlFor="" className='block'>Tecnico Asignado</label>
                 <select
+                    
                     value={tecnicoAsignado} onChange={e => setTecnicoAsignado(e.target.value)}
-                    name="" id="" className='text-center'>
+                    name="" id=""
+                     className='block py-2 px-0 w-full text-lg text-center text-gray-500 bg-transparent border-indigo-700 border-b-4 rounded-b-lg appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer'>
                     <option value="">--Asigna a un tecnico--</option>
                     { tecnicosArreglo.length>0?tecnicosArreglo.map(tecnico => <option value={tecnico.idTecnico} key={tecnico.idTecnico}>{tecnico.nombre}{'--'}Calificacion:{tecnico.promedio}</option>):'No has seleccionado un tipo de tecnico'}
                 </select>
                 
                 <div className='mt-5'>
                     <p className='text-center block mb-5'>
-                        Prioridad
+                        Selecciona la Prioridad
                     </p>
                     <section className='flex gap-20 justify-center'>
                         <span>

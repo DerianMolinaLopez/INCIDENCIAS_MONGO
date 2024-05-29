@@ -18,19 +18,41 @@ const CardIncidencia = ({id,handleModal,edificio,aula,equipo,descripcion,fecha,t
     tiempo estimado
     */
    //la ultima son para los botones de las columnas
+   //diccioanrio para el color
+   const setColorEstado = ()=>{
+    if(status==='en proceso'){
+      return 'text-indigo-600'
+    }
+    if(status==='pendiente'){
+      return 'text-gray-300'
+    }
+    if(status==='cerrada'){
+      return 'text-green-700'
+    }
+    return ''
+   }
+   
   return (
-    <div className='grid grid-cols-10 text-center border-b-2 pb-2 last-of-type:pb-5'>
+    <div className='grid grid-cols-10 text-center border-b-2 pb-2 last-of-type:pb-5 border-2 border-gray-300 place-items-center p-4 '>
        <p>{id}</p>
        <p>{edificio}</p>
        <p>{aula}</p>
        <p>{equipo}</p>
        <p>{descripcion}</p>
-       <p>{fecha}</p>
+       <p>{formateaFecha(fecha)}</p>
        <p>{tecnico==1?'Sin asignar':tecnico}</p>
-       <p>{status}</p>
+       <p> 
+        <span
+        className={`${setColorEstado()}`}
+        >
+        {status}
+        </span>
+        </p>
        <p>{tiempoEstimado==''?'sin asignar':tiempoEstimado}</p>
         <article className='flex justify-around'>
-            <button onClick = {e =>handleModal(e,id)} className =' cursor-pointer bg-indigo-700 rounded-lg text-white px-1 h-7'>Editar</button>
+            <button
+                 disabled = {status==='en proceso'}
+                 onClick = {e =>handleModal(e,id)} className ={`${status==='en proceso'? 'bg-indigo-300 cursor-default':'bg-indigo-700' } cursor-pointer bg-indigo-700 rounded-lg text-white px-1 h-7`}>Editar</button>
             <button className ='bg-red-700 rounded-lg text-white px-1 h-7'>Eliminar</button>
         </article>
     </div>

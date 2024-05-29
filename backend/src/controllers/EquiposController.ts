@@ -1,4 +1,5 @@
 import Equipo from "../models/Equipos";
+import Aula from "../models/Aula";
 import { Request,Response } from "express";
 import {tipo_equipo} from "../models/Equipos";
 class EquiposController{
@@ -20,13 +21,22 @@ class EquiposController{
        bitacoras: string[];
        tipoEquipo: tipo_equipo
     */
+   //checar la coleccion de equipo
     static async createEquipos(req: Request, res: Response){
         try{
             const {id_equipo,caracteristicas,id_aula,garantia_id,bitacoras,tipoEquipo} = req.body
             const equipos = new Equipo({id_equipo,caracteristicas,id_aula,garantia_id,bitacoras,tipoEquipo})
-           
-            equipos.save()
-            res.send('probando')
+             //verificamos si existe esa aula
+             const aulaExist = await Aula.findOne({id_aula})
+             if(!aulaExist){
+                return res.status(404).send('No existe esa aula')
+             }
+             console.log(aulaExist)
+             //agregamos en la coleccion de equipos y en el modelo de aula
+             aulaExist.equipos.push(id_equipo)
+             await Promise.all([ equipos.save(), aulaExist.save()])
+
+            res.json({msg:'equipo creado correctamente',equipo:equipos})
         }catch(error){
             res.send('error en el servidor')
             console.log(error)
