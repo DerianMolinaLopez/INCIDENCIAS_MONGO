@@ -12,6 +12,8 @@ import CapturaEquipo from './pages/CapturaEquipo';
 import CapturaEdificios from './pages/CapturaEdificios';
 import CapturaEquipos from './pages/CapturaEquipos';
 import CapturaAulas from './pages/CapturaAulas';
+import ReporteEdificios from './pages/ReporteEdificios';
+import ReporteAulas from './pages/ReporteAulas';
 import Layout from './Layout/Layout';
 import { GlobalProvider } from './context/globalContext';
 import './index.css';
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
       {
         path: "/incidencias/captura-equipos",
         element: <CapturaEquipos/>
+      },
+      {
+        path: "/incidencias/reporte-edificios",
+        element: <ReporteEdificios/>
+      },
+      {
+        path: "/incidencias/reporte-aulas",
+        element: <ReporteAulas/>
       }
     ]
   },

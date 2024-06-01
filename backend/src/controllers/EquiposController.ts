@@ -66,5 +66,6 @@ class EquiposController{
             console.log(error)
           }
     }
+    
 }
 export default EquiposController

@@ -17,11 +17,22 @@ class EdificioController {
         try{
             //todos los edificios de un deparatamento
             const {id_departamento} = req.params
-            const edificio =  await Edificio.find({id_departamento}).select('id_edificio')
+            const edificio =  await Edificio.find({id_departamento})
             res.send(edificio)
         }catch(error){
             res.send('error ene l servidor')
             console.log(error)
+        }
+    }
+    static async getEdificioByDepartamento(req: Request, res: Response) {
+        try{
+            const {departamento} = req.params
+            const edificios = await Edificio.find({id_departamento:departamento})
+            res.json({edificios, status:'success'})
+
+        }catch(error){
+            console.log(error)
+            res.send('error en el servidor')
         }
     }
     static async createEdificio (req:Request, res:Response){

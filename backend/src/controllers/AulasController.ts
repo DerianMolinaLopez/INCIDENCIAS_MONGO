@@ -74,6 +74,19 @@ class AulasController {
             console.log(e)
         }
     }
+    static async getAulaById(req:Request,res:Response){
+        try{
+            const {id_aula} = req.params
+            const aula = await Aula.findOne({id_aula})
+            if(!aula){
+                return res.json({msg:'Aula no encontrada',status:'error'})
+            }
+            res.json(aula)
+        }catch(e){
+            res.send('error en el servidor')
+            console.log(e)
+        }
+    }
     static async getAulasByEdificio(req:Request,res:Response){
         try{
             //vamos a reecibir el id del edificio
