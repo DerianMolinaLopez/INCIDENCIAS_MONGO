@@ -1,10 +1,15 @@
 import React from 'react'
 import { useState,useEffect } from 'react'
+import { ToastContainer,toast } from 'react-toastify'
 import GridCard from '../components/GridCard'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const TecnicoInicio = () => {
     const [incidencias, setIncidencias] = useState([])
+    const navigate = useNavigate()
+    const [modalSeleccionado,setModalSeleccionado] = useState(false)
+    const [incidencia,setIncidencia]=useState(0)
     //mandamos a traer las incidencias por el id del tecnico
     useEffect(() => { 
         const obtenerIncidencias = async () => {
@@ -13,26 +18,46 @@ const TecnicoInicio = () => {
             const { Nombre, id_usuario } = usuarioLocal.usuarioExist
             console.log(id_usuario)
             const response = await axios.get(`http://localhost:3000/incidencias/tecnico/${id_usuario}`)
+          
             console.log(response.data)
             setIncidencias(response.data)
         }
-        /*
-          edificio
-            aula
-            equipo
-            descripcion
-            fecha
-            departamento 
-            prioridad
-        */
+    
         obtenerIncidencias()
      },[]) 
+     const handleModal = ()=>{
+      setModalSeleccionado(!modalSeleccionado)
+      
+     }
+     const incidenciaSeleccionada = (id) =>{
+  
+      console.log(id)
+      setIncidencia(id)
+      toast.info(`Incidencia seleccionada ${id}`)
+     }
+     const cambios =e =>{
+        e.preventDefault()
+        if(incidencia === 0){
+            toast.error('Selecciona una de las incidencias antes')
+           return    
+        }
+        console.log('pasando los filtro')
+        //mandamos ese id al localStorage
+        localStorage.setItem('incidencia',JSON.stringify(incidencia))
+        navigate('/tecnico/formulario-cambios')
+
+     }
+   
+
   return (
     <div className='bg-gray-200 w-screen p-24'>
-        <h1  className='mb-10 text-3xl text-indigo-700'>Incidencias asignadas</h1>
+        <h1  className='mb-10 text-3xl bg-indigo-900 text-white p-2'>Incidencias asignadas</h1>
         <section className='grid grid-cols-3  place-items-center'>
             {incidencias.map(incidencia=>
             (<GridCard   
+                    incidenciaSeleccionada={incidenciaSeleccionada}
+                    id_incidencia = {incidencia.id_incidencia}
+                    handleModal ={handleModal}
                     descripcion={incidencia.descripcion}
                     id_aula={incidencia.id_aula}
                     id_edificio={incidencia.id_edificio}
@@ -45,7 +70,12 @@ const TecnicoInicio = () => {
                     key={incidencia.id_incidencia}
             />))}
         </section>  
-     
+     <a 
+     onClick={e => cambios(e)}
+     href="" className='bg-gray-700 p-3 text-white rounded-lg hover:bg-gray-900 transition-all'>
+         Selecciona una de las incidencias
+     </a>
+     <ToastContainer></ToastContainer>
     </div>
   )
 }

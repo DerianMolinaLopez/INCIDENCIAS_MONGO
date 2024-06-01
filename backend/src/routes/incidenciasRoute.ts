@@ -2,6 +2,7 @@ import Route from 'express'
 import IncidenciaController from '../controllers/IncidenciasController'
 const incidenciasRoute = Route()
 incidenciasRoute.get('/',IncidenciaController.getIncidencias)
+incidenciasRoute.get('/incidencia/:id_incidencia',IncidenciaController.getIncidenciaById)
 incidenciasRoute.post('/',IncidenciaController.createIncidencias)
 incidenciasRoute.post('/crear',IncidenciaController.createIncidencia)
 incidenciasRoute.get('/departamento/:id_departamento',IncidenciaController.getIncidenciaByDepartamento)

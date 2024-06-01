@@ -11,6 +11,7 @@ import routerTecnicos from './routes/tecnicoRoute';
 import incidenciasRoute from './routes/incidenciasRoute';
 import edificioRoute from './routes/EdificioRoute';
 import routerEquipos from './routes/equiposRoute';
+import cambiosRouter from './routes/CambiosRoute';
 const app = express();
 
 app.use(cors())
@@ -28,5 +29,6 @@ app.use('/equipos',routerEquipos)
 app.use('/usuarios',routerUsuarios)
 app.use('/tecnicos',routerTecnicos)
 app.use('/incidencias',incidenciasRoute)
+app.use('/cambios',cambiosRouter)
 conectDB()
 //rutas raices de los modelos

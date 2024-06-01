@@ -20,7 +20,7 @@ const ReporteAulas = () => {
     return (
         <div className='h-full bg-gray-200 anchura px-10 pt-4'>
             <h1 className='text-center text-indigo-800 text-3xl mb-3'>Detalle de Aulas</h1>
-            <table className='mx-auto w-full border-collapse border border-black border-2'>
+            <table className='mx-auto w-full border-collapse  border-black border-2'>
     <thead>
         <tr>
             <th scope='col' className='w-1/2 bg-blue-900 text-center px-6 py-3 font-medium text-white uppercase tracking-wider border border-black border-2'>

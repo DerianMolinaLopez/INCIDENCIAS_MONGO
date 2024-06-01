@@ -8,6 +8,23 @@ import { prioridad } from "../models/incidencias";
 import { estado } from "../models/incidencias";
 import { Request, Response } from "express";
 class IncidenciaController {
+
+
+    static async getIncidenciaById(req:Request, res:Response) {
+        try {
+            const {id_incidencia} = req.params
+            const incidecnia = await Incidencia.findOne({id_incidencia})
+            if(incidecnia){
+                return res.json({incidecnia,estado: 'ok'})
+            }
+            res.json({message: 'incidencia no encontrada',estado: 'error'})
+                     
+        } catch (error) {
+            res.send('error en el servidor')
+            console.log(error)
+        }
+    }
+
     static async getIncidencias(req:Request, res:Response) {
         try {
             const incidencias = await Incidencia.find()
