@@ -4,7 +4,9 @@ import { useState,useEffect } from 'react'
 import Encabezados from '../components/Encabezados'
 import CardIncidencia from '../components/CardIncidencias'
 import ModalAsignacion from '../components/ModalAsignacion'
+import { useNavigate } from 'react-router-dom'
 const JefeTecnicoInicio = () => {
+    const navigate = useNavigate()
     useEffect(() => {
         //mandamos a traer todas las incidencias
         const obtenerIncidencias = async () => {   
@@ -45,6 +47,12 @@ const JefeTecnicoInicio = () => {
     <div className='w-screen p-8'>
          {modal && <ModalAsignacion handleModal={handleModal} tecnicos={tecnicos} id_incidencia={incidenciaSeleccionada}/>}
         <h1 className='text-3xl text-indigo-600 mb-10'>Incidencias de todos los departamentos</h1>
+        <button 
+        onClick={()=>navigate('/jefe-tecnico/problemas')}
+         className='mb-10 border-4 rounded-lg border-indigo-800 hover:bg-indigo-800 hover:text-white transition-colors'>
+        ¿Problemas?
+        </button>
+
         <Encabezados/>
        
             {incidencias.map(incidecnia=>(

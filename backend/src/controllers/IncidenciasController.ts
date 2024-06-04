@@ -6,6 +6,7 @@ import Equipo from "../models/Equipos";
 import Tecnico from "../models/Tecnico";
 import { prioridad } from "../models/incidencias";
 import { estado } from "../models/incidencias";
+
 import { Request, Response } from "express";
 class IncidenciaController {
 
@@ -169,6 +170,24 @@ static async createIncidencia(req:Request, res:Response) {
             console.log(error)
         }
     }
+        static async liberarIncidencia(req:Request, res:Response) {
+            try{
+                const {id_incidencia} = req.body
+                const incidencia = await Incidencia.findOne({id_incidencia})
+                if(!incidencia){
+                    return res.status(404).json({message: "Incidencia no encontrada"})
+                }
+                //lo modificamos como liberado
+                if (incidencia) {
+                    incidencia.estado =  estado.CERRADA
+                    await incidencia.save()
+                }
+                res.json({msg:'actualizado',status:'ok'})
+            }catch(error){
+                console.log(error)
+                res.send('error en els ervidor')
+            }
+        }
     static async updateIncidencia(req:Request, res:Response) {
         try{
             //recibimos el id de la incidenica, la prioridad y el id del tecnico encargado

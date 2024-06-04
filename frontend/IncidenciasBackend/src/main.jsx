@@ -12,6 +12,7 @@ import CapturaEquipo from './pages/CapturaEquipo';
 import CapturaEdificios from './pages/CapturaEdificios';
 import CapturaEquipos from './pages/CapturaEquipos';
 import CapturaAulas from './pages/CapturaAulas';
+import Problemas from './pages/Problemas';
 import ReporteEdificios from './pages/ReporteEdificios';
 import ReporteAulas from './pages/ReporteAulas';
 import Layout from './Layout/Layout';
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
   {
     path: '/jefe-tecnico',
     element: <JefeTecnicoInicio />
+  },
+  {
+    path: '/jefe-tecnico/problemas',
+    element: <Problemas />
   },
   {
     path: '/tecnico',
